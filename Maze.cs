@@ -51,48 +51,114 @@
                 for (int j = 0; j < newMaze.Height; j++)
                     wasHere[i, j] = false;
             }
-
+            Stack<Situation> lastVisited = new Stack<Situation>();
+            // 
             bool SolveMaze(Situation situation)
             {
-                if (situation.CurrentPositionX == newMaze.Width - 1 & situation.CurrentPositionY == newMaze.Height - 1)
-                {
-                    return true;
-                }
-                if (wasHere[situation.CurrentPositionX, situation.CurrentPositionY]) 
-                { 
-                    return false; 
-                }
-                wasHere[situation.CurrentPositionX, situation.CurrentPositionY] = true;
 
-                if (!situation.EastBlocked & situation.CurrentPositionX < newMaze.Width - 1)
+                while (situation.CurrentPositionX != newMaze.Width - 1 & situation.CurrentPositionY != newMaze.Height - 1)
                 {
-                    if (SolveMaze(MoveTo(mazeUid, gameUid, east)))
+
+                    if (!wasHere[situation.CurrentPositionX, situation.CurrentPositionY])
                     {
-                        return true;
+                        wasHere[situation.CurrentPositionX, situation.CurrentPositionY] = true;
+
+                        if (!situation.EastBlocked & situation.CurrentPositionX < newMaze.Width - 1)
+                        {
+                            if (!wasHere[situation.CurrentPositionX + 1, situation.CurrentPositionY])
+                            {
+                                situation = MoveTo(mazeUid, gameUid, east);
+                                lastVisited.Push(situation);
+                                continue;
+                            }
+                            if (situation.SouthBlocked & situation.WestBlocked & situation.NorthBlocked)
+                            {
+                                situation = MoveTo(mazeUid, gameUid, east);
+                                lastVisited.Push(situation);
+                                wasHere[situation.CurrentPositionX, situation.CurrentPositionY] = false;
+                                continue;
+                            }
+                            if (MoveTo(mazeUid, gameUid, east) != lastVisited.Peek())
+                            {
+                                situation = MoveTo(mazeUid, gameUid, east);
+                                lastVisited.Push(situation);
+                                wasHere[situation.CurrentPositionX, situation.CurrentPositionY] = false;
+                                continue;
+                            }
+                        }
+                        if (!situation.SouthBlocked & situation.CurrentPositionX < newMaze.Height - 1)
+                        {
+                            if (!wasHere[situation.CurrentPositionX, situation.CurrentPositionY + 1])
+                            {
+                                situation = MoveTo(mazeUid, gameUid, south);
+                                lastVisited.Push(situation);
+                                continue;
+                            }
+                            if (situation.EastBlocked & situation.WestBlocked & situation.NorthBlocked)
+                            {
+                                situation = MoveTo(mazeUid, gameUid, south);
+                                lastVisited.Push(situation);
+                                wasHere[situation.CurrentPositionX, situation.CurrentPositionY] = false;
+                                continue;
+                            }
+                            if (MoveTo(mazeUid, gameUid, south) != lastVisited.Peek())
+                            {
+                                situation = MoveTo(mazeUid, gameUid, south);
+                                lastVisited.Push(situation);
+                                wasHere[situation.CurrentPositionX, situation.CurrentPositionY] = false;
+                                continue;
+                            }
+                        }
+                        if (!situation.WestBlocked & situation.CurrentPositionX > 0)
+                        {
+                            if (!wasHere[situation.CurrentPositionX - 1, situation.CurrentPositionY])
+                            {
+                                situation = MoveTo(mazeUid, gameUid, west);
+                                lastVisited.Push(situation);
+                                continue;
+                            }
+                            if (situation.SouthBlocked & situation.EastBlocked & situation.NorthBlocked)
+                            {
+                                situation = MoveTo(mazeUid, gameUid, west);
+                                lastVisited.Push(situation);
+                                wasHere[situation.CurrentPositionX, situation.CurrentPositionY] = false;
+                                continue;
+                            }
+                            if (MoveTo(mazeUid, gameUid, west) != lastVisited.Peek())
+                            {
+                                situation = MoveTo(mazeUid, gameUid, west);
+                                lastVisited.Push(situation);
+                                wasHere[situation.CurrentPositionX, situation.CurrentPositionY] = false;
+                                continue;
+                            }
+                        }
+                        if (!situation.NorthBlocked & situation.CurrentPositionY > 0)
+                        {
+                            if (!wasHere[situation.CurrentPositionX, situation.CurrentPositionY - 1])
+                            {
+                                situation = MoveTo(mazeUid, gameUid, north);
+                                lastVisited.Push(situation);
+                                continue;
+                            }
+                            if (situation.SouthBlocked & situation.WestBlocked & situation.EastBlocked)
+                            {
+                                situation = MoveTo(mazeUid, gameUid, north);
+                                lastVisited.Push(situation);
+                                wasHere[situation.CurrentPositionX, situation.CurrentPositionY] = false;
+                                continue;
+                            }                            
+                            if (MoveTo(mazeUid, gameUid, north) != lastVisited.Peek())
+                            {
+                                situation = MoveTo(mazeUid, gameUid, north);
+                                lastVisited.Push(situation);
+                                wasHere[situation.CurrentPositionX, situation.CurrentPositionY] = false;
+                                continue;
+                            }
+                        }
+                        return false;
                     }
                 }
-                if (!situation.SouthBlocked & situation.CurrentPositionX < newMaze.Height - 1)
-                {
-                    if (SolveMaze(MoveTo(mazeUid, gameUid, south)))
-                    {
-                        return true;
-                    }
-                }
-                if (!situation.WestBlocked & situation.CurrentPositionX > 0)
-                {
-                    if (SolveMaze(MoveTo(mazeUid, gameUid, west)))
-                    {
-                        return true;
-                    }
-                }
-                if (!situation.NorthBlocked & situation.CurrentPositionY > 0 )
-                {
-                    if (SolveMaze(MoveTo(mazeUid, gameUid, north)))
-                    {
-                        return true;
-                    }                    
-                }
-                return false;
+                return true;
             }
             return SolveMaze(situation);
         }

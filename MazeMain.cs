@@ -17,7 +17,7 @@ public class MazeMain
         //{
         //    Console.WriteLine("The maze was solved");
         //}
-        Console.WriteLine((newMaze.Play(newMaze)) ? "The maze was solved" : "The maze was not solved");
+        Console.WriteLine((newMaze.Play(newMaze)) ? "The maze was solved" : "The maze was imposible to solve");
     }
 }
 
