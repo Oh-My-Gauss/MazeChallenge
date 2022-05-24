@@ -50,10 +50,10 @@ namespace MazeChallenge
 
                 bool northBlocked = DynamicData.mazeBlockView.northBlocked;
                 bool southBlocked = DynamicData.mazeBlockView.southBlocked;
-                bool westBlocked = DynamicData.mazeBlockView.westBlocked;
                 bool eastBlocked = DynamicData.mazeBlockView.eastBlocked;
-
-                Situation situation = new Situation(currentPositionX, currentPositionY, northBlocked, southBlocked, westBlocked, eastBlocked);
+                bool westBlocked = DynamicData.mazeBlockView.westBlocked;
+                
+                Situation situation = new Situation(currentPositionX, currentPositionY, northBlocked, southBlocked, eastBlocked, westBlocked);
                 return situation;
             }
             Console.WriteLine("Your call was not correct");
