@@ -13,10 +13,7 @@ public class MazeMain
     static void Main(string[] args)
     {
         Maze newMaze = new Maze(25, 25);
-        //if (newMaze.Play(newMaze))
-        //{
-        //    Console.WriteLine("The maze was solved");
-        //}
+     
         Console.WriteLine((newMaze.Play(newMaze)) ? "The maze was solved" : "The maze was imposible to solve");
     }
 }

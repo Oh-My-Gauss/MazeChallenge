@@ -43,6 +43,12 @@ namespace MazeChallenge
             }
             else if (callToMake == "LookAround" || callToMake == "MoveTo")
             {
+                if (resultsAPI== " -You shall not pass- Gandalf said. (There is a wall in that direction")
+                {
+                    Console.WriteLine("He intentado saltar un muro");
+                    return "";
+                  
+                }
                 dynamic DynamicData = JsonConvert.DeserializeObject(resultsAPI);
 
                 int currentPositionX = DynamicData.game.currentPositionX;
