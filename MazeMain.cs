@@ -13,8 +13,15 @@ public class MazeMain
     static void Main(string[] args)
     {
         Maze newMaze = new Maze(25, 25);
-     
-        Console.WriteLine((newMaze.Play(newMaze)) ? "The maze was solved" : "The maze was imposible to solve");
+        try
+        {
+            Console.WriteLine((newMaze.Play(newMaze)) ? "The maze was solved" : "There was a error trying to solve the maze");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("There was a error trying to solve the maze", ex);
+            Console.WriteLine(ex.StackTrace);
+        }
     }
 }
 
